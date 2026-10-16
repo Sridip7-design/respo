@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>HTML & CSS MCQ Exam</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f2f5f9;
+            color: #222;
+        }
+
+        .header {
+            background: #173f5f;
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin-bottom: 8px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 850px;
+            margin: 30px auto;
+        }
+
+        .exam-info {
+            background: white;
+            padding: 18px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px #ccc;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .question-box {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px #ccc;
+        }
+
+        .question-number {
+            color: #173f5f;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .question {
+            font-size: 21px;
+            font-weight: bold;
+            line-height: 1.5;
+            margin-bottom: 25px;
+        }
+
+        .option {
+            border: 2px solid #ddd;
+            padding: 15px;
+            margin: 12px 0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .option:hover {
+            background: #eef5ff;
+            border-color: #173f5f;
+        }
+
+        .option input {
+            margin-right: 10px;
+        }
+
+        .buttons {
+            margin-top: 25px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        button {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 7px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        #previous {
+            background: #777;
+            color: white;
+        }
+
+        #next {
+            background: #173f5f;
+            color: white;
+        }
+
+        #submit {
+            background: #198754;
+            color: white;
+            display: none;
+        }
+
+        .result {
+            display: none;
+            background: white;
+            text-align: center;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px #ccc;
+        }
+
+        .result h2 {
+            color: #198754;
+            margin-bottom: 15px;
+        }
+
+        .score {
+            font-size: 35px;
+            font-weight: bold;
+            margin: 20px;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                width: 95%;
+            }
+
+            .question-box {
+                padding: 20px;
+            }
+
+            .question {
+                font-size: 18px;
+            }
+
+            .exam-info {
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <h1>HTML & CSS MCQ Exam</h1>
+        <p>Basic Web Development Assessment</p>
+    </div>
+
+    <div class="container">
+
+        <div class="exam-info">
+            <span>Questions: <b>12</b></span>
+            <span id="progress">Question 1 of 12</span>
+        </div>
+
+        <div id="exam" class="question-box">
+
+            <div class="question-number" id="questionNumber">
+                Question 1
+            </div>
+
+            <div class="question" id="questionText"></div>
+
+            <div id="options"></div>
+
+            <div class="buttons">
+
+                <button id="previous" onclick="previousQuestion()">
+                    Previous
+                </button>
+
+                <button id="next" onclick="nextQuestion()">
+                    Next
+                </button>
+
+                <button id="submit" onclick="submitExam()">
+                    Submit Exam
+                </button>
+
+            </div>
+
+        </div>
+
+        <div id="result" class="result">
+
+            <h2>Exam Completed!</h2>
+
+            <p>Your Score</p>
+
+            <div class="score" id="score"></div>
+
+            <p id="message"></p>
+
+        </div>
+
+    </div>
+
+
+<script>
+
+const questions = [
+
+    {
+        question: "Which HTML element contains the content that is displayed on the browser screen?",
+        options: ["<head>", "<body>", "<title>", "<meta>"],
+        answer: 1
+    },
+
+    {
+        question: "Which HTML tag is used to set the title displayed in the browser tab?",
+        options: ["<header>", "<head>", "<title>", "<h1>"],
+        answer: 2
+    },
+
+    {
+        question: "Which HTML tag is used to create a paragraph?",
+        options: ["<para>", "<text>", "<p>", "<paragraph>"],
+        answer: 2
+    },
+
+    {
+        question: "Which HTML tag creates the largest heading?",
+        options: ["<h6>", "<heading>", "<h1>", "<head>"],
+        answer: 2
+    },
+
+    {
+        question: "Which code correctly creates a heading followed by a paragraph?",
+        options: [
+            "<p>Welcome</p><h1>My Website</h1>",
+            "<h1>My Website</h1><p>Welcome</p>",
+            "<head>My Website</head><p>Welcome</p>",
+            "<title>My Website</title><p>Welcome</p>"
+        ],
+        answer: 1
+    },
+
+    {
+        question: "Which CSS selector selects all <p> elements on a webpage?",
+        options: ["*", ".p", "#p", "p"],
+        answer: 3
+    },
+
+    {
+        question: "Which CSS property is used to change the text color?",
+        options: [
+            "font-color",
+            "text-color",
+            "color",
+            "foreground-color"
+        ],
+        answer: 2
+    },
+
+    {
+        question: "Which CSS code correctly makes paragraph text blue?",
+        options: [
+            "p { text-color: blue; }",
+            "p { color: blue; }",
+            "p { font-color: blue; }",
+            "p { background: blue; }"
+        ],
+        answer: 1
+    },
+
+    {
+        question: "Which type of CSS is used in the following code? <style> p { color: blue; } </style>",
+        options: [
+            "Inline CSS",
+            "External CSS",
+            "Internal CSS",
+            "Browser default CSS"
+        ],
+        answer: 2
+    },
+
+    {
+        question: "Which HTML code correctly links an external CSS file?",
+        options: [
+            '<style src="styles.css"></style>',
+            '<link rel="stylesheet" href="styles.css">',
+            '<css href="styles.css">',
+            '<script src="styles.css"></script>'
+        ],
+        answer: 1
+    },
+
+    {
+        question: "Which CSS code correctly centers a fixed-width div horizontally?",
+        options: [
+            "div { text-align: center; }",
+            "div { width: 500px; margin: 0 auto; }",
+            "div { position: center; }",
+            "div { left: 50%; }"
+        ],
+        answer: 1
+    },
+
+    {
+        question: "What is the default value of the CSS position property?",
+        options: [
+            "relative",
+            "absolute",
+            "fixed",
+            "static"
+        ],
+        answer: 3
+    }
+
+];
+
+
+let currentQuestion = 0;
+
+let selectedAnswers = new Array(questions.length).fill(null);
+
+
+function loadQuestion() {
+
+    let q = questions[currentQuestion];
+
+    document.getElementById("questionNumber").innerText =
+        "Question " + (currentQuestion + 1);
+
+    document.getElementById("progress").innerText =
+        "Question " + (currentQuestion + 1) +
+        " of " + questions.length;
+
+    document.getElementById("questionText").innerText =
+        q.question;
+
+    let optionsHTML = "";
+
+    for (let i = 0; i < q.options.length; i++) {
+
+        let checked = "";
+
+        if (selectedAnswers[currentQuestion] === i) {
+            checked = "checked";
+        }
+
+        optionsHTML += `
+            <label class="option">
+                <input
+                    type="radio"
+                    name="answer"
+                    value="${i}"
+                    ${checked}
+                    onchange="saveAnswer(${i})"
+                >
+                ${q.options[i]}
+            </label>
+        `;
+    }
+
+    document.getElementById("options").innerHTML = optionsHTML;
+
+
+    if (currentQuestion === 0) {
+        document.getElementById("previous").style.visibility = "hidden";
+    } else {
+        document.getElementById("previous").style.visibility = "visible";
+    }
+
+
+    if (currentQuestion === questions.length - 1) {
+
+        document.getElementById("next").style.display = "none";
+
+        document.getElementById("submit").style.display = "block";
+
+    } else {
+
+        document.getElementById("next").style.display = "block";
+
+        document.getElementById("submit").style.display = "none";
+    }
+}
+
+
+function saveAnswer(answer) {
+
+    selectedAnswers[currentQuestion] = answer;
+
+}
+
+
+function nextQuestion() {
+
+    if (currentQuestion < questions.length - 1) {
+
+        currentQuestion++;
+
+        loadQuestion();
+    }
+}
+
+
+function previousQuestion() {
+
+    if (currentQuestion > 0) {
+
+        currentQuestion--;
+
+        loadQuestion();
+    }
+}
+
+
+function submitExam() {
+
+    let score = 0;
+
+    for (let i = 0; i < questions.length; i++) {
+
+        if (selectedAnswers[i] === questions[i].answer) {
+
+            score++;
+        }
+    }
+
+
+    document.getElementById("exam").style.display = "none";
+
+    document.getElementById("result").style.display = "block";
+
+
+    document.getElementById("score").innerText =
+        score + " / " + questions.length;
+
+
+    let percentage = (score / questions.length) * 100;
+
+
+    if (percentage >= 80) {
+
+        document.getElementById("message").innerText =
+            "Excellent! You have a strong understanding of HTML and CSS.";
+
+    } else if (percentage >= 50) {
+
+        document.getElementById("message").innerText =
+            "Good job! Keep practicing HTML and CSS.";
+
+    } else {
+
+        document.getElementById("message").innerText =
+            "Keep learning and practice more HTML and CSS.";
+    }
+
+}
+
+
+loadQuestion();
+
+</script>
+
+</body>
+</html>
